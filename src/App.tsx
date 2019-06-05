@@ -1,27 +1,21 @@
 import React, { useState } from 'react';
 import './App.css';
 
-type Digit = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '0';
-type Operator = '+' | '-' | '×' | '÷' | '^' | '=';
-type Button = Digit | Operator;
+import { Digit, Operator, Command } from './types/types';
 
-type State = {
-  afterOperator: string;
-  beforeOperator: string;
-  operator: Operator;
-};
+import Button from './components/Button';
 
 const App: React.FC = () => {
   //prettier-ignore
   const digits: Digit[] = ['0', '1', '3', '4', '5', '6', '7', '8', '9',]
   const operators: Operator[] = ['+', '-', '×', '÷', '^', '='];
-  const keyBoard: Button[] = [...digits, ...operators];
+  const keyBoard: Command[] = [...digits, ...operators];
 
   const [afterOperator, setAfterOperator] = useState('');
   const [beforeOperator, setBeforeOperator] = useState('');
   const [operator, setOperator] = useState('');
 
-  function handleClick(keyClicked: Button) {
+  function handleClick(keyClicked: Command) {
     console.log(keyClicked);
     if (digits.includes(keyClicked as Digit)) {
       if (operator && beforeOperator) {
@@ -30,7 +24,8 @@ const App: React.FC = () => {
     }
     if (operators.includes(keyClicked as Operator)) {
       console.log('hi');
-      // TODO if afterOperator, calculate and set beforeOperator to result
+      // TODO if (afterOperator), calculate and set beforeOperator to result
+      // TODO only change operator state if (beforeOperator)
       setOperator(() => keyClicked);
     }
   }
@@ -45,16 +40,4 @@ const App: React.FC = () => {
 
   return <div className="App">{buttons}</div>;
 };
-
-const Button: React.FC<{ value: Button; onClick: () => void }> = props => {
-  // const handleClick = (something: Button) => {
-  //   console.log(something);
-  // };
-  return (
-    <button id="{props.value}" onClick={props.onClick}>
-      {props.value}
-    </button>
-  );
-};
-
 export default App;
