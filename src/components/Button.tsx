@@ -2,7 +2,9 @@ import React from 'react';
 
 import { Command } from '../types/types';
 
-const Button: React.FC<{ value: Command; onClick: () => void }> = props => (
+type Props = { value: Command; onClick: () => void };
+
+const Button: React.FC<Props> = props => (
   <button id="{props.value}" onClick={props.onClick}>
     {props.value}
   </button>
