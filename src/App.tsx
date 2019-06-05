@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import './App.css';
 
 type Digits = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0;
@@ -9,19 +9,24 @@ const App: React.FC = () => {
   //prettier-ignore
   const keyBoard: Button[] = [0, 1, 3, 4, 5, 6, 7, 8, 9, '+', '-', '×', '÷', '='];
 
-  const handleClick: any = () => {
+  const handleClick = () => {
     console.log('hi');
   };
 
   const buttons = keyBoard.map((eachKey, i) => (
-    <Button value={eachKey} key={`button-${eachKey}`} />
+    <Button value={eachKey} key={`button-${eachKey}`} onClick={handleClick} />
   ));
 
   return <div className="App">{buttons}</div>;
 };
 
-const Button: React.FC<{ value: Button }> = props => {
-  return <button id="{props.value}">{props.value}</button>;
+const Button: React.FC<{ value: Button; onClick: any }> = props => {
+  return (
+    // @ts-ignore
+    <button id="{props.value}" onClick={props.onClick}>
+      {props.value}
+    </button>
+  );
 };
 
 export default App;
