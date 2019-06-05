@@ -1,23 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { any } from 'prop-types';
 
-type Digits = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0;
+type Digits = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '0';
 type Operators = '+' | '-' | '×' | '÷' | '=';
 type Button = Digits | Operators;
 
+type State = {
+  afterOperator: string;
+  beforeOperator: string;
+  operator: string;
+};
+
 const App: React.FC = () => {
   //prettier-ignore
-  const keyBoard: Button[] = [0, 1, 3, 4, 5, 6, 7, 8, 9, '+', '-', '×', '÷', '='];
+  const keyBoard: Button[] = ['0', '1', '3', '4', '5', '6', '7', '8', '9', '+', '-', '×', '÷', '='];
+
+  const [afterOperator, setAfterOperator] = useState('');
+  const [beforeOperator, setBeforeOperator] = useState('');
+  const [operator, setOperator] = useState('');
+
+  function handleClick(keyClicked: string) {
+    console.log(keyClicked);
+  }
 
   const buttons = keyBoard.map((eachKey, i) => (
-    <Button value={eachKey} key={`button-${eachKey}`} />
+    <Button
+      value={eachKey}
+      key={`button-${eachKey}`}
+      onClick={() => handleClick(eachKey)}
+    />
   ));
 
   return <div className="App">{buttons}</div>;
 };
 
-const Button: React.FC<{ value: Button }> = props => {
+const Button: React.FC<{ value: Button; onClick: any }> = props => {
   const handleClick = (something: Button) => {
     console.log(something);
   };
@@ -29,5 +46,3 @@ const Button: React.FC<{ value: Button }> = props => {
 };
 
 export default App;
-
-// TODO: Get this working in React without Typescript
