@@ -1,32 +1,65 @@
 import React, { useState } from 'react';
 import './App.css';
 
-import { Digit, Operator, Command } from './types/types';
+import { Digit, Operator, Command, NumberHook } from './types/types';
+import { digits, operators, keyBoard } from './constants';
 
 import Button from './components/Button';
+import Display from './components/Display';
 
 const App: React.FC = () => {
-  //prettier-ignore
-  const digits: Digit[] = ['0', '1', '3', '4', '5', '6', '7', '8', '9',]
-  const operators: Operator[] = ['+', '-', '×', '÷', '^', '='];
-  const keyBoard: Command[] = [...digits, ...operators];
+  // TODO: Figure out how to annotate this.
+  const [afterOperator, setAfterOperator]: NumberHook = useState('');
+  const [beforeOperator, setBeforeOperator]: NumberHook = useState('');
+  const [operator, setOperator]: [
+    Operator,
+    React.Dispatch<React.SetStateAction<Operator>>
+  ] = useState('' as Operator);
 
-  const [afterOperator, setAfterOperator] = useState('');
-  const [beforeOperator, setBeforeOperator] = useState('');
-  const [operator, setOperator] = useState('');
+  function calculate(fromDisplay: {
+    operator: Operator;
+    beforeOperator: string;
+    afterOperator: string;
+  }) {
+    const { operator, beforeOperator, afterOperator } = fromDisplay;
+    switch (operator) {
+      case '+':
+        return (Number(beforeOperator) + Number(afterOperator)).toString();
+      case '-':
+        return (Number(beforeOperator) - Number(afterOperator)).toString();
+      case '×':
+        return (Number(beforeOperator) * Number(afterOperator)).toString();
+      case '÷':
+        return (Number(beforeOperator) / Number(afterOperator)).toString();
+      case '^':
+        return (Number(beforeOperator) ** Number(afterOperator)).toString();
+    }
+    return '';
+  }
 
   function handleClick(keyClicked: Command) {
     console.log(keyClicked);
     if (digits.includes(keyClicked as Digit)) {
       if (operator && beforeOperator) {
-        // Move before operator to
+        return setAfterOperator(() => afterOperator + keyClicked);
+      } else {
+        return setBeforeOperator(() => beforeOperator + keyClicked);
       }
     }
+    if (keyClicked === '=') {
+      if (!beforeOperator || !afterOperator) return;
+
+      setBeforeOperator(() => '');
+      setOperator(() => '');
+      setAfterOperator(() =>
+        calculate({ operator, beforeOperator, afterOperator })
+      );
+      return;
+    }
     if (operators.includes(keyClicked as Operator)) {
-      console.log('hi');
       // TODO if (afterOperator), calculate and set beforeOperator to result
       // TODO only change operator state if (beforeOperator)
-      setOperator(() => keyClicked);
+      return setOperator(() => keyClicked as Operator);
     }
   }
 
@@ -38,6 +71,13 @@ const App: React.FC = () => {
     />
   ));
 
-  return <div className="App">{buttons}</div>;
+  return (
+    <div className="App">
+      <Display display={`${beforeOperator} ${operator} ${afterOperator}`} />
+      <hr />
+      {buttons}
+    </div>
+  );
 };
+
 export default App;
