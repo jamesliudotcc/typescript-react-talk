@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import './App.css';
 
-import { Digit, Operator, Command, NumberHook } from './types/types';
+import {
+  Command,
+  Digit,
+  Operator,
+  NumberHook,
+  OperatorHook,
+} from './types/types';
 import { digits, operators, keyBoard } from './constants';
 
 import Button from './components/Button';
 import Display from './components/Display';
 
 const App: React.FC = () => {
-  // TODO: Figure out how to annotate this.
   const [afterOperator, setAfterOperator]: NumberHook = useState('');
   const [beforeOperator, setBeforeOperator]: NumberHook = useState('');
-  const [operator, setOperator]: [
-    Operator,
-    React.Dispatch<React.SetStateAction<Operator>>
-  ] = useState('' as Operator);
+  const [operator, setOperator]: OperatorHook = useState('' as Operator);
 
   function calculate(fromDisplay: {
     operator: Operator;

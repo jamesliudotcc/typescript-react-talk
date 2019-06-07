@@ -28,3 +28,26 @@ So, from the TS Docs:
 
 <https://www.typescriptlang.org/docs/handbook/generics.html>
 
+
+
+Typescript knows what React's builtin functions do. For example, in Hooks, 
+
+```typescript
+const [operator, setOperator] = useState('')
+```
+
+it knows that the type of setOperator is
+
+```typescript
+React.Dispatch<React.SetStateAction<T>>
+```
+
+You are responsible for filling in T, and for typing Operator.
+
+
+
+
+
+Resources:
+
+<http://2ality.com/2018/04/type-notation-typescript.html>

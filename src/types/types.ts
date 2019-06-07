@@ -20,3 +20,7 @@ export type State = {
 };
 
 export type NumberHook = [string, React.Dispatch<React.SetStateAction<string>>];
+export type OperatorHook = [
+  Operator,
+  React.Dispatch<React.SetStateAction<Operator>>
+];
