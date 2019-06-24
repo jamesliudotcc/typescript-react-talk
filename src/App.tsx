@@ -54,7 +54,7 @@ const App: React.FC = () => {
       setBeforeOperator(() => '');
       setOperator(() => '');
       setAfterOperator(() =>
-        calculate({ operator, beforeOperator, afterOperator })
+        calculate({ operator, beforeOperator, afterOperator }),
       );
       return;
     }
